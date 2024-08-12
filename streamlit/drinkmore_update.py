@@ -267,9 +267,9 @@ def app():
             ctx = webrtc_streamer(
                 key="example",
                 video_frame_callback=video_frame_callback,
-                rtc_configuration={  # Remove this if webcam does not work properly
-                    "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
-                },
+                # rtc_configuration={  # Remove this if webcam does not work properly
+                #     "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+                # },
             )
             fig_place = st.empty()
 
