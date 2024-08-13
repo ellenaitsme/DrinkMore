@@ -314,6 +314,8 @@ def app():
                 else:
                     st.warning("Not Drinking")
 
+        st.info("We are still developing our model to increase its accuracy. Sorry if there are false detections.", icon="ℹ️")
+
 
 if __name__ == "__main__":
     app()
