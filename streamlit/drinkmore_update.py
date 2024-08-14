@@ -12,7 +12,9 @@ import cv2
 import pandas as pd
 import random
 import time
+from datetime import datetime
 import threading
+import pytz
 
 def build_model():
     vgg19_base = VGG19(weights='imagenet', include_top=False, input_shape=(160, 160, 3))
@@ -165,7 +167,8 @@ def app():
         st.write("")
         st.write("---")
 
-        next_reminder = list(filter(lambda x: x > time.strftime("%H:%M", time.localtime(time.time())), st.session_state[st.session_state["state"]]))
+        jkt = datetime.now(pytz.timezone("Asia/Jakarta"))
+        next_reminder = list(filter(lambda x: x > jkt.strftime("%H:%M"), st.session_state[st.session_state["state"]]))
         # next_reminder = []
 
         pop = st.popover("Next reminder")
@@ -192,7 +195,8 @@ def app():
         st.title("SCHEDULE")
         st.write("---")
 
-        next_reminder = list(filter(lambda x: x > time.strftime("%H:%M", time.localtime(time.time())), st.session_state[st.session_state["state"]]))
+        jkt = datetime.now(pytz.timezone("Asia/Jakarta"))
+        next_reminder = list(filter(lambda x: x > jkt.strftime("%H:%M"), st.session_state[st.session_state["state"]]))
         if st.session_state["temp_state"] != st.session_state["state"] or st.session_state["update_status"] == True:
             status_reminder = []
             # for i in st.session_state[st.session_state["state"]]:
@@ -263,9 +267,9 @@ def app():
             ctx = webrtc_streamer(
                 key="example",
                 video_frame_callback=video_frame_callback,
-                rtc_configuration={  # Remove this if webcam does not work properly
-                    "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
-                },
+                # rtc_configuration={  # Remove this if webcam does not work properly
+                #     "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+                # },
             )
             fig_place = st.empty()
 
@@ -309,6 +313,8 @@ def app():
                     st.success("Drinking")
                 else:
                     st.warning("Not Drinking")
+
+        st.info("We are still developing our model to increase its accuracy. Sorry if there are false detections.", icon="ℹ️")
 
 
 if __name__ == "__main__":
